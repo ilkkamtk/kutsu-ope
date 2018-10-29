@@ -1,0 +1,1 @@
+export const kutsuApiUrl = 'http://punch.metropolia.fi/kutsuApi/public';
