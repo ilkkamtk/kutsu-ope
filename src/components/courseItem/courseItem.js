@@ -3,13 +3,17 @@ import {ListGroupItem} from 'reactstrap';
 // import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {setCourseAction} from '../../actions/course-actions';
+import {getKutsuApiCallsAction} from '../../actions/kutsuApi-actions';
 
-const CourseItem = ({course, selectedCourse, selectCourseAction, toggle, key}) => {
+const CourseItem = ({course, setCourseAction, toggle, getKutsuApiCallsAction, interval}) => {
   const handler = (event) => {
     event.preventDefault();
     toggle('2');
-    console.log(course);
-    selectCourseAction(course);
+    setCourseAction(course);
+    getKutsuApiCallsAction(course.cID);
+    interval = setInterval(()=>{
+      getKutsuApiCallsAction(course.cID);
+    }, 10000);
   };
 
   return (
@@ -22,4 +26,5 @@ const mapStateToProps = (store) => ({
   selectedCourse: store.userEventsState.selectedCourse,
 });
 
-export default connect(mapStateToProps, {selectCourseAction: setCourseAction})(CourseItem);
+export default connect(mapStateToProps,
+    {setCourseAction, getKutsuApiCallsAction})(CourseItem);

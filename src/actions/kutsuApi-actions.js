@@ -14,12 +14,12 @@ export const getKutsuApiCoursesAction = () => {
   };
 };
 
-export const getKutsuApiCallsAction = () => {
+export const getKutsuApiCallsAction = (id) => {
   return (dispatch) => {
-    fetchGetJSON(`${kutsuApiUrl}/calls`).then((courses) => {
+    fetchGetJSON(`${kutsuApiUrl}/calls/${id}`).then((calls) => {
       dispatch({
         type: actionTypes.GET_CALLS,
-        courses,
+        calls,
       });
     });
   };
@@ -35,6 +35,16 @@ export const deleteKutsuApiCallAction = (id) => {
         type: actionTypes.DELETE__CALL,
         call,
       });
+    });
+  };
+};
+
+export const refreshCallList = (calls, id) => {
+  calls = calls.filter(call => call.kID !== id);
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.REFRESH_CALL_LIST,
+      calls,
     });
   };
 };

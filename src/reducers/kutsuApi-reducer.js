@@ -32,6 +32,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.REFRESH_CALL_LIST:
+      return {
+        ...state,
+        calls: action.calls,
+      };
+
     default:
       return state;
   }

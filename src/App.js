@@ -6,14 +6,18 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  Button,
   Container,
 } from 'reactstrap';
 import classnames from 'classnames';
-
 import './App.css';
 import CourseList from './components/courseList/courseList';
 import Header from './components/header/header';
+import connect from 'react-redux/es/connect/connect';
+import {
+  deleteKutsuApiCallAction,
+  getKutsuApiCoursesAction,
+} from './actions/kutsuApi-actions';
+import CallList from './components/callList/callList';
 
 class App extends Component {
   constructor(props) {
@@ -35,6 +39,10 @@ class App extends Component {
       });
     }
   }
+
+  componentDidMount () {
+    this.props.getKutsuApiCoursesAction();
+  };
 
   makeCall() {
     this.toggle('3');
@@ -76,16 +84,16 @@ class App extends Component {
                       }}
                       disabled={this.state.activeTab !== 2}
                   >
-                    Call teacher
+                    Call list
                   </NavLink>
                 </NavItem>
               </Nav>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                  <CourseList toggle={this.toggle}/>
+                  <CourseList courses={this.props.courses} interval={this.interval} setCourse={this.setCourse} toggle={this.toggle}/>
                 </TabPane>
                 <TabPane tabId="2">
-                  <h3>Do you want help with coding or to submit tasks?</h3>
+                  <CallList/>
                 </TabPane>
               </TabContent>
             </div>
@@ -96,4 +104,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (store) => ({
+  call: store.kutsuApiState.call,
+  courses: store.kutsuApiState.courses,
+});
+
+export default connect(mapStateToProps,
+    {deleteKutsuApiCallAction, getKutsuApiCoursesAction})(App);

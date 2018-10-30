@@ -1,28 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {ListGroup} from 'reactstrap';
 import CourseItem from '../courseItem/courseItem';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {getKutsuApiCoursesAction} from '../../actions/kutsuApi-actions';
 
-const CourseList = ({courses, toggle, setCourse, getKutsuApiCoursesAction}) => {
-
-  const componentDidMount = () => {
-    getCourses();
-  };
-
-  const getCourses = () => {
-    console.log('kutsuttu');
-    getKutsuApiCoursesAction();
-  };
+const CourseList = ({courses, toggle, setCourse, interval}) => {
 
   return (
       <ListGroup>
         {courses.map((course) => {
-          console.log(course);
           return <CourseItem key={course.cID} course={course}
                              toggle={toggle}
-                             setCourse={setCourse}/>;
+                             setCourse={setCourse} interval={interval}/>;
         })}
       </ListGroup>
   );
@@ -34,13 +22,4 @@ const mapStateToProps = (store) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getKutsuApiCoursesAction: bindActionCreators(
-        getKutsuApiCoursesAction,
-        dispatch,
-    ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CourseList);
+export default connect(mapStateToProps)(CourseList);
