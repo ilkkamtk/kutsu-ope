@@ -17,6 +17,7 @@ export const getKutsuApiCoursesAction = () => {
 export const getKutsuApiCallsAction = (id) => {
   return (dispatch) => {
     fetchGetJSON(`${kutsuApiUrl}/calls/${id}`).then((calls) => {
+      calls.sort((a, b) => (a.kID - b.kID));
       dispatch({
         type: actionTypes.GET_CALLS,
         calls,
@@ -41,6 +42,9 @@ export const deleteKutsuApiCallAction = (id) => {
 
 export const refreshCallList = (calls, id) => {
   calls = calls.filter(call => call.kID !== id);
+  console.log(calls);
+  calls.sort((a, b) => (a.kID - b.kID));
+  console.log(calls);
   return (dispatch) => {
     dispatch({
       type: actionTypes.REFRESH_CALL_LIST,
